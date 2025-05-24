@@ -18,7 +18,7 @@ jobs:
       matrix:
         node: [ "23.7.x" ]
         runs-on: [ ubuntu-latest ]
-    runs-on: ${{ matrix-run-on }}
+    runs-on: ${{ matrix.run-on }}
     steps:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
