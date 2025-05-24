@@ -16,7 +16,7 @@ jobs:
   build:
     strategy:
       matrix:
-        node: [ "24" ]
+        node: [ "24.0.0" ]
         runs-on: [ ubuntu-latest ]
     runs-on: ${{ matrix.runs-on }}
     steps:
