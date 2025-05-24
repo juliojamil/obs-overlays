@@ -4,7 +4,8 @@
 
 import "@styles/main.scss";
 import {DomModule} from "@jamilservices/sb-core-dom-module";
-import {clockPanel} from "./panes/clock/main.js";
+
+import {clockPanel} from "@components/clock/main.js";
 
 const start = () => {
     clockPanel.start();
