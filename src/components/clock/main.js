@@ -36,7 +36,7 @@ const clockStore = {
 };
 
 const startClockPanel = () => {
-    const testUrl = "/assets/json/clock.json";
+    const testUrl = "./assets/json/clock.json";
     if(clockSettings(testUrl, clockStore).then()) console.log(clockStore);
 };
 
