@@ -5,6 +5,7 @@ import {clockSettingsSizeValidate} from "./settings/size.js";
 import {clockSettingsPositionValidate} from "./settings/position.js";
 import {clockSettingsFontValidate} from "./settings/font.js";
 import {clockSettings} from "./settings/main.js";
+import {clockWidget} from "@components/clock/widget/main.js";
 
 const clockStore = {
     settings: {
@@ -20,8 +21,8 @@ const clockStore = {
         },
         position: {
             top: "160px",
-            left: "",
-            bottom: "",
+            left: "unset",
+            bottom: "unset",
             right: "4px"
         },
         font: {
@@ -38,7 +39,7 @@ const clockStore = {
 const startClockPanel = () => {
     const {href} = window.location;
     const testUrl = `${href}/assets/json/clock.json`;
-    if(clockSettings(testUrl, clockStore).then()) console.log(clockStore);
+    if(clockSettings(testUrl, clockStore).then()) return clockWidget(clockStore);
 };
 
 export const clockPanel = Object.seal({
