@@ -1,0 +1,54 @@
+name: Build and Deploy Overlay page
+
+on:
+  workflow_dispatch:
+
+permissions:
+  content: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        node: [ "23.7.x" ]
+        run-on: [ ubuntu-latest ]
+    runs-on: ${{ matrix-run-on }}
+    steps:
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.0
+          run-install: false
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: $${{ matrix.node }}
+      - name: Install Dependencies
+        run: |
+          pnpm install
+          pnpm run build
+          cd dist
+          tar -cvf ../artifact.tar *
+      
+      - uses: actions/upload-artifact@v4
+        name: Upload build
+        with:
+          name: github-pages
+          path: artifact.tar
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    run-on: ubuntu-latest
+    steps:
+      - name: Deploy to Github Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
