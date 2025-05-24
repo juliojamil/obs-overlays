@@ -40,8 +40,10 @@ const getClockSettings = async (url, clockStore) => {
             if(response.ok) {
                 clockStore.default = {...clockStore.settings};
                 const json = await response.json();
-                if (json && loadClockSettings(json, clockStore) && validClockSettings(clockStore)) return true;
-                clockStore.default = undefined;
+                if (json && loadClockSettings(json, clockStore) && validClockSettings(clockStore)) {
+                    clockStore.default = undefined;
+                    return true;
+                }
             }
         }
     } catch (err) {
