@@ -20,17 +20,19 @@ const loadClockSettings = (data = {}, clockStore) => {
     const keys = ["background", "size", "position", "font"];
 
     try {
-        for (let key of keys) {
-            const item = data[key];
-            if (item && (Object.keys(item).length >= 1)) {
-                clockStore.settings[key] = item;
+        return new Promise(done => {
+            for (let i = (keys.length - 1); i >=0; i --) {
+                const item = data[keys[i]];
+                if (item && (Object.keys(item).length >= 1)) {
+                    clockStore.settings[keys[i]] = item;
+                }
+                if(i === 0) return done(validClockSettings(clockStore));
             }
-        }
+        });
     } catch (err) {
         console.warn(err.message);
+        return false;
     }
-
-    return true;
 };
 
 const getClockSettings = async (url, clockStore) => {
@@ -40,7 +42,7 @@ const getClockSettings = async (url, clockStore) => {
             if(response.ok) {
                 clockStore.default = {...clockStore.settings};
                 const json = await response.json();
-                if (json && loadClockSettings(json, clockStore) && validClockSettings(clockStore)) {
+                if (json && loadClockSettings(json, clockStore)) {
                     clockStore.default = undefined;
                     return true;
                 }

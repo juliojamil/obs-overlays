@@ -36,10 +36,11 @@ const clockStore = {
     default: undefined
 };
 
-const startClockPanel = () => {
+const startClockPanel = async () => {
     const {href} = window.location;
     const testUrl = `${href}/assets/json/clock.json`;
-    if(clockSettings(testUrl, clockStore).then()) return clockWidget(clockStore);
+    await clockSettings(testUrl, clockStore);
+    return clockWidget(clockStore);
 };
 
 export const clockPanel = Object.seal({

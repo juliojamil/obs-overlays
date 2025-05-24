@@ -7,6 +7,7 @@ const panelBoxStruct = (clockStore) => {
     /*const {clockDate, clockTime} = getClockData();
     const clockDateStruct = createTextSpan({text: clockDate, clock: true});
     const clockTimeStruct = createTextSpan({text: clockTime, clock: true});*/
+
     return {
         element: "div",
         attr: {
