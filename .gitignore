@@ -25,9 +25,9 @@
 !/design/
 !/design/**
 
-!/simplybuilder/
-!/simplybuilder/*-module/
-!/simplybuilder/*-module/**
+#!/simplybuilder/
+#!/simplybuilder/*-module/
+#!/simplybuilder/*-module/**
 
 **/*~
 **/*.log
