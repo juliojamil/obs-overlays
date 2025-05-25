@@ -1,0 +1,197 @@
+@use "sass:color";
+@forward "clock-font";
+
+%padding-0 {
+  padding: 0;
+}
+%margin-0 {
+  margin: 0;
+}
+%relative {
+  position: relative;
+}
+%block {
+  display: block;
+}
+
+@mixin background {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-attachment: local;
+  background-size: 100% 100%;
+}
+
+@function hex-to-oklch($hex) {
+  @return color.to-space($hex, oklch);
+}
+
+$color1: hex-to-oklch(#ee9494);
+$color2: hex-to-oklch(#ff6476);
+$color3: hex-to-oklch(#6f0101);
+$color4: hex-to-oklch(#faebd7);
+
+html, body {
+  @extend %margin-0;
+  @extend %padding-0;
+  outline-offset: 0;
+  outline: none;
+  box-sizing: border-box;
+  background-color: transparent;
+  inline-size: 100%;
+  min-inline-size: fit-content;
+  block-size: 100%;
+  min-block-size: fit-content;
+  box-sizing: border-box;
+  * {
+    &, &::before, &::after {
+      box-sizing: border-box;
+      @extend %margin-0;
+      @extend %padding-0;
+      outline-offset: 0;
+      outline: none;
+    }
+  }
+}
+
+body {
+  @extend %block;
+  @extend %relative;
+}
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.digital-clock {
+  @extend %relative;
+  inline-size: 488px;
+  block-size:291px;
+  @include background;
+  //background-image: url("/assets/png/clock.png");
+  background-image: var(--digitalClockBgImage, none);
+  color: $color4;
+  font-family: 'DS-Digital', serif;
+
+  div.char-container {
+    display: inline-flex;
+    position: absolute;
+    align-content: flex-start;
+    justify-content: center;
+
+    inline-size: fit-content;
+
+    flex-direction: row;
+    gap: 2px;
+
+    span{
+      animation: pulse 150ms;
+      &.char {
+      display: inline-flex;
+      @extend %relative;
+
+      font-size: 68px;
+
+      inline-size: 36px;
+      line-height: 60px;
+      letter-spacing: 2px;
+      justify-content: flex-end;
+
+      &:nth-of-type(3), &:nth-of-type(6) {
+        justify-content: center;
+      }
+        &:not(.dots) {
+          &::before {
+            @extend %block;
+            position: absolute;
+            content: "0";
+            z-index: -1;
+            color: $color3;
+            opacity: 0.4;
+          }
+        }
+    }
+  }
+    &:nth-of-type(1) {
+      top: 100px;
+      left: 50px;
+      z-index: 2;
+      &::after {
+        animation: pulse 150ms;
+        content: "date:";
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 600;
+        font-style: normal;
+        position: absolute;
+        @extend %block;
+        inline-size: fit-content;
+        block-size: fit-content;
+        font-size: 16px;
+        top: -12px;
+        left: 0
+      }
+    }
+    &:nth-of-type(2) {
+      top: 180px;
+      left: 90px;
+      font-size: 70;
+      z-index: 3;
+      &::after {
+        animation: pulse 150ms;
+        content: "hour:";
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 600;
+        font-style: normal;
+        position: absolute;
+        @extend %block;
+        inline-size: fit-content;
+        block-size: fit-content;
+        font-size: 16px;
+        top: -12px;
+        left: 0;
+      }
+    }
+  }
+
+  &::after {
+    @extend %block;
+    content: "";
+    @include background;
+    //background-image: url("/assets/png/visor.png");
+    background-image: var(--digitalClockBgImageAfter, none);
+    inline-size: 422px;
+    block-size: 199px;
+    position: absolute;
+    z-index: 2;
+    top: 58px;
+    left: 28px;
+    opacity: 0.4;
+  }
+}
+
+.neon {
+  text-shadow:
+          0 0 7px $color1,
+          0 0 10px $color1,
+          0 0 21px $color1,
+          0 0 42px $color2,
+          0 0 82px $color2,
+          0 0 92px $color2
+          /*0 0 102px $color2,
+          0 0 151px $color2*/
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+  }
+
+  70% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0.95);
+  }
+}

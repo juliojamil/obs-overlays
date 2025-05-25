@@ -8,14 +8,21 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const settings= {
     base: "./",
-    root: "./src",
+    root: "./pages",
     build:{
         manifest: false,
         outDir: "../dist",
-        minify: "terser",
+        minify: false,
+        //minify: "terser",
         target: "esnext",
         terserOptions: {
             mangle: false
+        },
+        rollupOptions: {
+            input: {
+                main: resolve(__dirname, "pages", "index.html"),
+                "digital-clock": resolve(__dirname, "pages", "digital-clock", "index.html")
+            }
         }
     },
     optimizeDeps: {
@@ -29,13 +36,14 @@ const settings= {
     publicDir: "../static",
     resolve: {
         alias: {
-            "@styles": resolve(__dirname, "src", "styles"),
-            "@components": resolve(__dirname, "src", "components")
+            "@styles": resolve(__dirname, "design"),
+            "@simplybuilder": resolve(__dirname, "simplybuilder"),
         }
     },
     server: {
         cors: false,
-        open: false
+        open: false,
+        port: 3000
     },
     plugins: []
 };

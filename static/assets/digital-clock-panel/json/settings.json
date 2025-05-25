@@ -1,0 +1,10 @@
+{
+  "panels": {
+    "digital-clock": {
+      "background": {
+        "color": "transparent",
+        "image_src": "./assets/digital-clock-panel/png/"
+      }
+    }
+  }
+}

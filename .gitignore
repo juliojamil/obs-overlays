@@ -1,22 +1,33 @@
 *
 
 !/.gitignore
-!/.nojekyll
 
 !/.github/
 !/.github/**
 
+!/.nojekyll
+
+!/README.md
+!/LICENSE
 
 !/package.json
 !/postcss.config.js
 !/vite.config.js
 
-!/src/
-!/src/**
-
 !/static/
+!/static/favicon.ico
 !/static/assets/
 !/static/assets/**
+
+!/pages/
+!/pages/**
+
+!/design/
+!/design/**
+
+!/simplybuilder/
+!/simplybuilder/*-module/
+!/simplybuilder/*-module/**
 
 **/*~
 **/*.log
