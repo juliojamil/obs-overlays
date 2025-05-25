@@ -25,8 +25,8 @@ const validJson = (data = {}) => {
         if(SimplyBuilderTypes.string(image_src, true)
             && SimplyBuilderTypes.false(image_src === DigitalClockStore.background.image_src, true)) {
             let url = `${image_src}`;
-
-            if(url.startsWith("./")) url = url.replace("./", "/");
+            const getPort = window.location.port;
+            if(SimplyBuilderTypes.true(Number(getPort) === 3000, true) && url.startsWith("./")) url = url.replace("./", "/");
 
             DigitalClockStore.background.image_src = url.replace(/([^:]\/)\/+/g, '$1')
                 .replace(/\/$/, '');
