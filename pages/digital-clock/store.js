@@ -35,15 +35,26 @@ const validJson = (data = {}) => {
     }
 };
 
+const removeLastSlash = (url) => {
+    return url.replace(/\/$/, '');
+};
+
 const getJson = async () => {
-    const {origin, href, port} = window.location;
+    const {origin, href, port, pathname} = window.location;
     const getPort = port;
-    let host = href;
-    if(SimplyBuilderTypes.true(Number(port) === 3000, true)) host = origin;
-    console.log(window.location);
+    let host = href.replace(pathname, "");
+
+    const checkPathName = pathname.split("digital-clock");
+
+    if(checkPathName.length >= 2) {
+        const path = removeLastSlash(checkPathName[0]);
+        if(path.length >= 1) host = `${host}/${path}`;
+    }
 
     const url = `${host}/assets/digital-clock-panel/json/settings.json`;
-    await fetch(url.replace(/([^:]\/)\/+/g, '$1'))
+    console.log(url);
+
+    await fetch(url.replace(/([^:]\/)\/+/g, "$1"))
         .then(res => {
             if(res.ok) return res.json();
         }).then((json) => validJson({json, origin}))
