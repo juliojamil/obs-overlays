@@ -36,9 +36,13 @@ const validJson = (data = {}) => {
 };
 
 const getJson = async () => {
-    const {origin} = window.location;
+    const {origin, href, port} = window.location;
+    const getPort = port;
+    let host = href;
+    if(SimplyBuilderTypes.true(Number(port) === 3000, true)) host = origin;
+    console.log(window.location);
 
-    const url = `${origin}/assets/digital-clock-panel/json/settings.json`;
+    const url = `${host}/assets/digital-clock-panel/json/settings.json`;
     await fetch(url.replace(/([^:]\/)\/+/g, '$1'))
         .then(res => {
             if(res.ok) return res.json();
