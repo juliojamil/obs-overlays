@@ -8,6 +8,24 @@ const DigitalClockStore = {
     background: undefined
 };
 
+const githubVsVitejs = () => {
+    const {href, port, pathname} = window.location;
+
+    let url = href.replace(pathname, "");
+
+    const checkPathName = pathname.split("digital-clock");
+
+    if(checkPathName.length >= 2) {
+        const path = removeLastSlash(checkPathName[0]);
+        if(path.length >= 1) url = `${url}/${path}`;
+    }
+
+    return removeLastSlash(url);
+};
+
+const removeLastSlash = (url) => {
+    return url.replace(/\/$/, '');
+};
 const validJson = (data = {}) => {
     const {json} = data;
     if(SimplyBuilderTypes.object(json?.["panels"]?.["digital-clock"]?.["background"], true)) {
@@ -24,35 +42,22 @@ const validJson = (data = {}) => {
         }
         if(SimplyBuilderTypes.string(image_src, true)
             && SimplyBuilderTypes.false(image_src === DigitalClockStore.background.image_src, true)) {
-            let url = `${image_src}`;
-            const getPort = window.location.port;
-            if(SimplyBuilderTypes.true(Number(getPort) === 3000, true) && url.startsWith("./")) url = url.replace("./", "/");
+            let url = `${removeLastSlash(image_src)}`;
+            if(SimplyBuilderTypes.true(url.startsWith("./"), true) || SimplyBuilderTypes.true(url.startsWith("/"), true)) {
+                let path = url.replace(".", "").replace(/^\//, "");
+                url = `${githubVsVitejs()}/${path}`;
+            }
 
-            DigitalClockStore.background.image_src = url.replace(/([^:]\/)\/+/g, '$1')
-                .replace(/\/$/, '');
+            DigitalClockStore.background.image_src = removeLastSlash(url.replace(/([^:]\/)\/+/g, '$1'));
         }
 
     }
 };
 
-const removeLastSlash = (url) => {
-    return url.replace(/\/$/, '');
-};
-
 const getJson = async () => {
-    const {origin, href, port, pathname} = window.location;
-    const getPort = port;
-    let host = href.replace(pathname, "");
+    const address = githubVsVitejs();
 
-    const checkPathName = pathname.split("digital-clock");
-
-    if(checkPathName.length >= 2) {
-        const path = removeLastSlash(checkPathName[0]);
-        if(path.length >= 1) host = `${host}/${path}`;
-    }
-
-    const url = `${host}/assets/digital-clock-panel/json/settings.json`;
-    console.log(url);
+    const url = `${address}/assets/digital-clock-panel/json/settings.json`;
 
     await fetch(url.replace(/([^:]\/)\/+/g, "$1"))
         .then(res => {
