@@ -1,6 +1,30 @@
 @use "sass:color";
 @forward "clock-font";
 
+$color1: #ee9494;
+$color2: #ff6476;
+$color3: #6f0101;
+$color4: #faebd7;
+
+@function hex-to-oklch($hex) {
+  @return color.to-space($hex, oklch);
+}
+
+:root {
+  --color1: #{$color1};
+  --color2: #{$color2};
+  --color3: #{$color3};
+  --color4: #{$color4};
+}
+@supports (color: oklch(0% 0 0deg)) {
+  :root {
+    --color1: #{hex-to-oklch($color1)};
+    --color2: #{hex-to-oklch($color2)};
+    --color3: #{hex-to-oklch($color3)};
+    --color4: #{hex-to-oklch($color4)};
+  }
+}
+
 %padding-0 {
   padding: 0;
 }
@@ -20,16 +44,11 @@
   background-attachment: local;
   background-size: 100% 100%;
 }
-
+/*
 @function hex-to-oklch($hex) {
   @return color.to-space($hex, oklch);
 }
-
-$color1: hex-to-oklch(#ee9494);
-$color2: hex-to-oklch(#ff6476);
-$color3: hex-to-oklch(#6f0101);
-$color4: hex-to-oklch(#faebd7);
-
+*/
 html, body {
   @extend %margin-0;
   @extend %padding-0;
@@ -42,6 +61,7 @@ html, body {
   block-size: 100%;
   min-block-size: fit-content;
   box-sizing: border-box;
+
   * {
     &, &::before, &::after {
       box-sizing: border-box;
@@ -66,11 +86,11 @@ body {
   @extend %relative;
   inline-size: 488px;
   block-size:291px;
+  color: var(--color4);
+  font-family: 'DS-Digital', serif;
   @include background;
   //background-image: url("/assets/png/clock.png");
   background-image: var(--digitalClockBgImage, none);
-  color: $color4;
-  font-family: 'DS-Digital', serif;
 
   div.char-container {
     display: inline-flex;
@@ -105,7 +125,7 @@ body {
             position: absolute;
             content: "0";
             z-index: -1;
-            color: $color3;
+            color: var(--color3);
             opacity: 0.4;
           }
         }
@@ -115,6 +135,7 @@ body {
       top: 100px;
       left: 50px;
       z-index: 2;
+
       &::after {
         animation: pulse 150ms;
         content: "date:";
@@ -134,7 +155,7 @@ body {
     &:nth-of-type(2) {
       top: 180px;
       left: 90px;
-      font-size: 70;
+      font-size: 70px;
       z-index: 3;
       &::after {
         animation: pulse 150ms;
@@ -158,7 +179,6 @@ body {
     @extend %block;
     content: "";
     @include background;
-    //background-image: url("/assets/png/visor.png");
     background-image: var(--digitalClockBgImageAfter, none);
     inline-size: 422px;
     block-size: 199px;
@@ -172,14 +192,12 @@ body {
 
 .neon {
   text-shadow:
-          0 0 7px $color1,
-          0 0 10px $color1,
-          0 0 21px $color1,
-          0 0 42px $color2,
-          0 0 82px $color2,
-          0 0 92px $color2
-          /*0 0 102px $color2,
-          0 0 151px $color2*/
+          0 0 7px var(--color1),
+          0 0 10px var(--color1),
+          0 0 21px var(--color1),
+          0 0 42px var(--color2),
+          0 0 82px var(--color2),
+          0 0 92px var(--color2);
 }
 
 @keyframes pulse {

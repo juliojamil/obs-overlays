@@ -14,7 +14,7 @@ const settings= {
         outDir: "../dist",
         minify: false,
         //minify: "terser",
-        target: "esnext",
+        target: "es2020 ",
         terserOptions: {
             mangle: false
         },

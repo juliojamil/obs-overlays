@@ -30,7 +30,8 @@ const createSVGElement = (data = {}) => {
 const createChildren = (data) => {
     const {struct, element} = data;
     if (struct.children) {
-        const startFromLast = struct.children["toReversed"]();
+        const startFromLast = [...struct.children].reverse();
+        //const startFromLast = struct.children["toReversed"]();
         for (let i = (startFromLast.length - 1); i >= 0; i--) {
             const childItem = startFromLast[i];
             if (childItem) createFromStruct({struct: childItem, parent: element});
